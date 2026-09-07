@@ -16,15 +16,23 @@ const readerQuestionsRouter = require("./routes/readerQuestions");
 const announcementsRouter = require("./routes/announcements");
 const lineCommentsRouter = require("./routes/lineComments");
 const newsFlowRouter = require("./routes/newsFlow");
+const siteSettingsRouter = require("./routes/siteSettings");
 const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
+
+app.set("trust proxy", 1);
 
 app.use(helmet());
 app.use(compression());
 
 const corsOptions = {
-  origin: "*",
+  origin: [
+    "https://busrabalcik.com",
+    "https://www.busrabalcik.com",
+    "http://localhost:5173",
+    "http://localhost:3000",
+  ],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
@@ -65,6 +73,7 @@ app.use("/reader-questions", readerQuestionsRouter);
 app.use("/announcements", announcementsRouter);
 app.use("/line-comments", lineCommentsRouter);
 app.use("/news-flow", newsFlowRouter);
+app.use("/site-settings", siteSettingsRouter);
 
 app.use(errorHandler);
 
